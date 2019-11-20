@@ -1,4 +1,3 @@
-**Hadoop-Environment-Configuration**
 # 基于CentOS7平台的Hadoop安装及环境搭建全教程
 ### The latest Hadoop environment configuration tutorial (constantly updated) 
 -----
@@ -16,11 +15,11 @@ JAVA JDK安装教程：[Centos7中yum安装jdk及配置环境变量](https://www
 笔者综合对比N个教程，在原有教程上进行了补充和优化，加入了配图以及更加详细的步骤介绍以及可能会遇到的各种坑。
 
 -----
-# 1 前期操作
+## 1 前期操作
 
 **在操作过程中，如果遇到权限相关的问题，基本上在代码前面加sudo就可以解决（这样可以暂时获取权限）**
 
-## 1.1 Hadoop用户的创建
+### 1.1 Hadoop用户的创建
 如果你安装 CentOS 的时候不是用的 “hadoop” 用户，那么需要增加一个名为 hadoop 的用户。
 **如果不需要创建用户，则直接开始步骤1.2**
 
@@ -56,7 +55,7 @@ sudo是linux系统管理指令，是允许系统管理员让普通用户执行�
 
 **接下来检查系统是否联网，如果是联网状态，即可安装SSH和Java**
 
-## 1.2 安装SSH，配置SSH无密码登录
+### 1.2 安装SSH，配置SSH无密码登录
 
 集群、单节点模式都需要用到 SSH 登陆（类似于远程登陆，你可以登录某台 Linux 主机，并且在上面运行命令），一般情况下，CentOS 默认已安装了 SSH client、SSH server，打开终端执行如下命令进行检验：
 ```shell
@@ -91,7 +90,7 @@ chmod 600 ./authorized_keys    # 修改文件权限
 
 此时再用 ssh localhost 命令，无需输入密码就可以直接登陆了。
 
-## 1.3 安装JAVA环境
+### 1.3 安装JAVA环境
 
 **这里需要注意一下ubuntu和centOS的区别：对于安装操作，ubuntu中可以用的apt-get install，在centOS中不可以使用，需要用yum**
 
@@ -107,7 +106,7 @@ Java 环境可选择 Oracle 的 JDK，或是 OpenJDK，现在一般 Linux 系统
 CentOS Linux release 7.4.1708 (Core) 
 ```
 安装之前先查看一下有无系统自带jdk(如果有的话，安装可能会报错)
-```linux
+```shell
 rpm -qa |grep java
 
 rpm -qa |grep jdk
@@ -115,7 +114,44 @@ rpm -qa |grep jdk
 rpm -qa |grep gcj
 ```
 如果有，就使用批量卸载命令
-```linux
+```shell
 rpm -qa | grep java | xargs rpm -e --nodeps 
 ```
 直接yum安装1.8.0版本openjdk
+```shell
+[root@localhost ~]# yum install java-1.8.0-openjdk* -y
+```
+查看版本
+```shell
+[root@localhost ~]# java -version
+openjdk version "1.8.0_161"
+OpenJDK Runtime Environment (build 1.8.0_161-b14)
+OpenJDK 64-Bit Server VM (build 25.161-b14, mixed mode)
+```
+默认jre jdk 安装路径是/usr/lib/jvm 下面
+此处插入图片
+
+JAVA_HOME指向一个含有java可执行程序的目录(一般是在 bin/java中,此目录为/bin/java的上级目录),用cd 命令进入到 jvm下唯一的一个目录中 java-1.8.0-openjdk-1.8.0.161-0.b14.el7_3.x86_64,发现其下目录为 /jar/bin/java.jre-1.8.0-openjdk-1.8.0.161-0.b14.el7_4.x86_64 这个链接是指向 java-1.8.0-openjdk-1.8.0.161-0.b14.el7_4.x86_64/jre 这个文件夹，所以，可以直接用export命令将 JAVA_HOME 指向
+ jre-1.8.0-openjdk-1.8.0.121-0.b14.el7_4.x86_64这个链接.
+ 
+ 临时生效
+ ```shell
+ [root@localhost ~]#  export JAVA_HOME=/usr/lib/jvm/<span style="font-family: Arial;">jre-1.8.0-openjdk-1.8.0.121-0.b13.el7_3.x86_64</span> 
+ ```
+ 当前用户生效的配置
+ ```shell
+ vim ~/.bashrc
+#在文件底部加入下面一句
+export  JAVA_HOME=/usr/lib/jvm/jre-1.8.0-openjdk-1.8.0.161-0.b14.el7_4.x86_64
+```
+**这里需要注意一下Linux系统中的文本编辑的几个工具vi/vim、gedit、nano**
+>vi/vim直接在命令行界面执行，显示简便，但是修改等操作不如后面两者简便
+>>vi/vim异同点及操作：https://blog.csdn.net/qq_37896194/article/details/80369432
+>>vim操作 进入编辑后，按esc退出，然后输入     :wq    保存退出
+>>gedit可以打开类似txt的文本界面，方便修改，ubuntu可用。但是如果服务器虚拟机不支持图形显示，gedit则不可用
+>>gedit的安装方法：sudo yum install gedit
+>>gedit为什么不能用？To use a gnome app you need a desktop. A putty session doesn't supply a desktop unless you install one on the system that you are running putty from. Use a text editor like vim or nano instead.不过没有关系，nano大法好！
+>nano类似于在命令行界面显示文本界面，结合了vim和gedit，介于两者之间
+>>nano操作教程：https://ipcmen.com/nano
+>>nano使用教程： ^x表示 ctrl+X
+
