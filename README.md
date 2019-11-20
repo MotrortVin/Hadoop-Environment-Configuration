@@ -99,5 +99,24 @@ chmod 600 ./authorized_keys    # 修改文件权限
 **输入yum list，可以查找到使用yum可以安装的所有东西。**
 
 **同样地，如果需要root权限的话，可以通过sudo暂时获得权限，即：sudo yum install ……**
+
 Java 环境可选择 Oracle 的 JDK，或是 OpenJDK，现在一般 Linux 系统默认安装的基本是 OpenJDK，如 CentOS 6.4 就默认安装了 OpenJDK 1.7。按 http://wiki.apache.org/hadoop/HadoopJavaVersions 中说的，Hadoop 在 OpenJDK 1.7 下运行是没问题的。需要注意的是，CentOS 6.4 中默认安装的只是 Java JRE，而不是 JDK，为了开发方便，我们还是需要通过 yum 进行安装 JDK。
 
+系统版本
+```shell
+[root@localhost ~]# cat /etc/redhat-release 
+CentOS Linux release 7.4.1708 (Core) 
+```
+安装之前先查看一下有无系统自带jdk(如果有的话，安装可能会报错)
+```linux
+rpm -qa |grep java
+
+rpm -qa |grep jdk
+
+rpm -qa |grep gcj
+```
+如果有，就使用批量卸载命令
+```linux
+rpm -qa | grep java | xargs rpm -e --nodeps 
+```
+直接yum安装1.8.0版本openjdk
