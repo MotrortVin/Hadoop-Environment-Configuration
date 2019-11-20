@@ -145,13 +145,21 @@ JAVA_HOME指向一个含有java可执行程序的目录(一般是在 bin/java中
 export  JAVA_HOME=/usr/lib/jvm/jre-1.8.0-openjdk-1.8.0.161-0.b14.el7_4.x86_64
 ```
 **这里需要注意一下Linux系统中的文本编辑的几个工具vi/vim、gedit、nano**
+
 >vi/vim直接在命令行界面执行，显示简便，但是修改等操作不如后面两者简便
 >>vi/vim异同点及操作：https://blog.csdn.net/qq_37896194/article/details/80369432
+
 >>vim操作 进入编辑后，按esc退出，然后输入     :wq    保存退出
->>gedit可以打开类似txt的文本界面，方便修改，ubuntu可用。但是如果服务器虚拟机不支持图形显示，gedit则不可用
+
+>gedit可以打开类似txt的文本界面，方便修改，ubuntu可用。但是如果服务器虚拟机不支持图形显示，gedit则不可用
+
 >>gedit的安装方法：sudo yum install gedit
+
 >>gedit为什么不能用？To use a gnome app you need a desktop. A putty session doesn't supply a desktop unless you install one on the system that you are running putty from. Use a text editor like vim or nano instead.不过没有关系，nano大法好！
+
 >nano类似于在命令行界面显示文本界面，结合了vim和gedit，介于两者之间
+
 >>nano操作教程：https://ipcmen.com/nano
+
 >>nano使用教程： ^x表示 ctrl+X
 
