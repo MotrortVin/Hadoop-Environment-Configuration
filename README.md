@@ -55,3 +55,49 @@ sudo是linux系统管理指令，是允许系统管理员让普通用户执行�
 
 使用 hadoop 用户登录后，还需要安装几个软件才能安装 Hadoop。
 
+**接下来检查系统是否联网，如果是联网状态，即可安装SSH和Java**
+
+## 1.2 安装SSH，配置SSH无密码登录
+
+集群、单节点模式都需要用到 SSH 登陆（类似于远程登陆，你可以登录某台 Linux 主机，并且在上面运行命令），一般情况下，CentOS 默认已安装了 SSH client、SSH server，打开终端执行如下命令进行检验：
+```shell
+rpm -qa | grep ssh
+```
+如果返回的结果包含了 SSH client 跟 SSH server，则不需要再安装。
+
+若需要安装，则可以通过 yum 进行安装（安装过程中会让你输入 [y/N]，输入 y 即可）：
+```shell
+sudo yum install openssh-clients
+sudo yum install openssh-server
+```
+接着执行如下命令测试一下 SSH 是否可用：
+```shell
+ssh localhost
+```
+此时会有提示(SSH首次登陆提示)，输入 yes 。然后按提示输入密码 hadoop，这样就登陆到本机了。
+
+但这样登陆是需要每次输入密码的，我们需要配置成SSH无密码登陆比较方便。
+
+首先输入 exit 退出刚才的 ssh，就回到了我们原先的终端窗口，然后利用 ssh-keygen 生成密钥，并将密钥加入到授权中：
+```shell
+exit                           # 退出刚才的 ssh localhost
+cd ~/.ssh/                     # 若没有该目录，请先执行一次ssh localhost
+ssh-keygen -t rsa              # 会有提示，都按回车就可以
+cat id_rsa.pub >> authorized_keys  # 加入授权
+chmod 600 ./authorized_keys    # 修改文件权限
+```
+~的含义
+
+在 Linux 系统中，~ 代表的是用户的主文件夹，即 “/home/用户名” 这个目录，如你的用户名为 hadoop，则 ~ 就代表 “/home/hadoop/”。 此外，命令中的 # 后面的文字是注释。
+
+此时再用 ssh localhost 命令，无需输入密码就可以直接登陆了。
+
+## 1.3 安装JAVA环境
+
+**这里需要注意一下ubuntu和centOS的区别：对于安装操作，ubuntu中可以用的apt-get install，在centOS中不可以使用，需要用yum**
+
+**输入yum list，可以查找到使用yum可以安装的所有东西。**
+
+**同样地，如果需要root权限的话，可以通过sudo暂时获得权限，即：sudo yum install ……**
+Java 环境可选择 Oracle 的 JDK，或是 OpenJDK，现在一般 Linux 系统默认安装的基本是 OpenJDK，如 CentOS 6.4 就默认安装了 OpenJDK 1.7。按 http://wiki.apache.org/hadoop/HadoopJavaVersions 中说的，Hadoop 在 OpenJDK 1.7 下运行是没问题的。需要注意的是，CentOS 6.4 中默认安装的只是 Java JRE，而不是 JDK，为了开发方便，我们还是需要通过 yum 进行安装 JDK。
+
