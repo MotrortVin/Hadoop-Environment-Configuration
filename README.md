@@ -144,6 +144,14 @@ JAVA_HOME指向一个含有java可执行程序的目录(一般是在 bin/java中
 #在文件底部加入下面一句
 export  JAVA_HOME=/usr/lib/jvm/jre-1.8.0-openjdk-1.8.0.161-0.b14.el7_4.x86_64
 ```
+如果使所有用户生效的配置
+```shell
+vim /etc/profile
+ #set java environment  
+export JAVA_HOME=/usr/lib/jvm/java
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JAVA_HOME/jre/lib/rt.jar
+export PATH=$PATH:$JAVA_HOME/bin
+```
 **这里需要注意一下Linux系统中的文本编辑的几个工具vi/vim、gedit、nano**
 
 >vi/vim直接在命令行界面执行，显示简便，但是修改等操作不如后面两者简便
@@ -158,3 +166,20 @@ export  JAVA_HOME=/usr/lib/jvm/jre-1.8.0-openjdk-1.8.0.161-0.b14.el7_4.x86_64
 >>nano操作教程：https://ipcmen.com/nano   
 >>nano使用教程： ^x表示 ctrl+X
 
+使得配置生效
+```shell
+. /etc/profile
+```
+查看变量
+```
+[root@localhost ~]#  echo $JAVA_HOME  
+/usr/lib/jvm/jre-1.8.0-openjdk-1.8.0.161-0.b14.el7_4.x86_64
+
+ [root@localhost ~]# echo $CLASSPATH
+.:/usr/lib/jvm/jre-1.8.0-openjdk-1.8.0.161-0.b14.el7_4.x86_64/lib/dt.jar:/usr/lib/jvm/jre-1.8.0-openjdk-1.8.0.161-0.b14.el7_4.x86_64/lib/tools.jar
+```
+ javac 和java 命令都有输出设置提示就表示安装和环境配置成功了
+ 
+ **具体案例见附录**
+ 
+ 
