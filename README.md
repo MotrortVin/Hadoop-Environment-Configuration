@@ -181,5 +181,5 @@ export PATH=$PATH:$JAVA_HOME/bin
  javac 和java 命令都有输出设置提示就表示安装和环境配置成功了
  
  **具体案例见附录**
- 
+ （未完待续）
  
