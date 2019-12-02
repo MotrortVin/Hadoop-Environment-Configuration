@@ -1,5 +1,5 @@
 # 基于CentOS7平台的Hadoop安装及环境搭建全教程
-- The latest Hadoop environment configuration tutorial (constantly updated) 
+> The latest Hadoop environment configuration tutorial (constantly updated) 
 -----
 This `read.me` will teach you how to configure the environment of Hadoop based on CentOS7. There are also some tips that you need to know.
 
